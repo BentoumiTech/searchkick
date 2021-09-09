@@ -4,7 +4,7 @@ module Searchkick
 
     def initialize(record)
       @record = record
-      original_name = record.searchkick_index.name
+      original_name = record.class.searchkick_index.name
       @index = record.class.searchkick_index(name: record.dynamic_index_prefix + original_name)
     end
 
