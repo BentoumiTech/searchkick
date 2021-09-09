@@ -46,7 +46,7 @@ module Searchkick
 
     def searchkick_index
       if klass
-        original_name = klass.searchkick_index
+        original_name = klass.searchkick_index.name
         return klass.searchkick_index(name: options[:index_prefix] + original_name)
       end
       nil
