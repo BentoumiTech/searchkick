@@ -19,7 +19,7 @@ module Searchkick
         :boost_by, :boost_by_distance, :boost_by_recency, :boost_where, :conversions, :conversions_term, :debug, :emoji, :exclude, :execute, :explain,
         :fields, :highlight, :includes, :index_name, :indices_boost, :limit, :load,
         :match, :misspellings, :models, :model_includes, :offset, :operator, :order, :padding, :page, :per_page, :profile,
-        :request_params, :routing, :scope_results, :scroll, :select, :similar, :smart_aggs, :suggest, :total_entries, :track, :type, :where]
+        :request_params, :routing, :scope_results, :scroll, :select, :similar, :smart_aggs, :suggest, :total_entries, :track, :type, :where, :index_prefix]
       raise ArgumentError, "unknown keywords: #{unknown_keywords.join(", ")}" if unknown_keywords.any?
 
       term = term.to_s
@@ -45,7 +45,11 @@ module Searchkick
     end
 
     def searchkick_index
-      klass ? klass.searchkick_index : nil
+      if klass
+        original_name = klass.searchkick_index
+        return klass.searchkick_index(name: options[:index_prefix] + original_name)
+      end
+      nil
     end
 
     def searchkick_options
