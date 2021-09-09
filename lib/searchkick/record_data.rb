@@ -35,8 +35,9 @@ module Searchkick
     end
 
     def record_data
+      dynamic_index_prefix = record.respond_to?(:dynamic_index_prefix) ? record.dynamic_index_prefix : ''
       data = {
-        _index: index.name,
+        _index: dynamic_index_prefix + index.name,
         _id: search_id
       }
       data[:_type] = document_type if Searchkick.server_below7?

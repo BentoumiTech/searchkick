@@ -4,7 +4,8 @@ module Searchkick
 
     def initialize(record)
       @record = record
-      @index = record.class.searchkick_index
+      original_name = record.class.searchkick_index.name
+      @index = record.class.searchkick_index(name: record.dynamic_index_prefix + original_name)
     end
 
     def reindex(method_name = nil, refresh: false, mode: nil)
